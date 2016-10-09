@@ -1,3 +1,5 @@
-.idea
+.DS_Store
 node_modules
-site
+npm-debug.log
+data/schema.graphql
+.idea/
