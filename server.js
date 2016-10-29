@@ -6,12 +6,36 @@ import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import {clean} from 'require-clean';
 import {exec} from 'child_process';
+import mongoose from 'mongoose';
+
+
+//run the database:
+//mongod --dbpath=./data --port 27017
+
+var MongoClient = require('mongodb').MongoClient
+      , assert = require('assert');
 
 const APP_PORT = 3000;
 const GRAPHQL_PORT = 8080;
 
 let graphQLServer;
 let appServer;
+
+function startMongoServer(callback) {
+    //let db = mongoose.connection;
+    //mongoose.connect('mongodb://127.0.0.1/test');
+    /*
+    // Connection URL
+    var url = 'mongodb://localhost:27017/myproject';
+    // Use connect method to connect to the Server
+    MongoClient.connect(url, function(err, db) {
+      assert.equal(null, err);
+      console.log("Connected correctly to server");
+
+      db.close();
+    });
+    */
+}
 
 function startAppServer(callback) {
   // Serve the Relay app
@@ -85,8 +109,10 @@ function startServers(callback) {
     }
     startGraphQLServer(handleTaskDone);
     startAppServer(handleTaskDone);
+    startMongoServer();
   });
 }
+
 const watcher = chokidar.watch('./data/{database,schema}.js');
 watcher.on('change', path => {
   console.log(`\`${path}\` changed. Restarting.`);
